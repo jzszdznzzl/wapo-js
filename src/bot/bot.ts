@@ -268,15 +268,17 @@ export class Bot extends EventEmitter<BotEventMap> {
     return this;
   }
 
-  use(...middlewares: (Middleware | ErrorMiddleware)[]) {
+  use(...middlewares: Middleware[]) {
     assertInstanceOf(middlewares, "middlewares", Array);
-    middlewares.forEach((middleware) => {
-      if (middleware.length === 2) {
-        this.#middlewares.normal.push(middleware as Middleware);
-        return;
-      }
-      this.#middlewares.error.push(middleware as ErrorMiddleware);
-    });
+    middlewares.forEach((m) => assertTypeOf(m, "middleware", "function"));
+    this.#middlewares.normal.push(...middlewares);
+    return this;
+  }
+
+  error(...middlewares: ErrorMiddleware[]) {
+    assertInstanceOf(middlewares, "middlewares", Array);
+    middlewares.forEach((m) => assertTypeOf(m, "middleware", "function"));
+    this.#middlewares.error.push(...middlewares);
     return this;
   }
 
