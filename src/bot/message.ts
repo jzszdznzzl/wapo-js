@@ -143,7 +143,7 @@ export class Message {
         from = alt;
       }
     }
-    return from;
+    return JID.normalize(from);
   }
 
   #getSender() {
@@ -162,7 +162,7 @@ export class Message {
         }
       }
     }
-    return sender;
+    return sender ? JID.normalize(sender) : undefined;
   }
 
   #getType(msg?: proto.IMessage) {
