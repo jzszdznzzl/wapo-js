@@ -161,6 +161,11 @@ export class Message {
           sender = alt;
         }
       }
+    } else if (
+      this.from.server === JIDServer.LID ||
+      this.from.server === JIDServer.S_WHATSAPP_NET
+    ) {
+      sender = this.from;
     }
     return sender ? JID.normalize(sender) : undefined;
   }
